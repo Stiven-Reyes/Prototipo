@@ -11,6 +11,7 @@
 <body>
 <div class="container mt-5">
         <h2>Formulario de Informacion</h2>
+        <h2>Careloco</h2>
         <form id="personaForm" method="POST">
             <div class="mb-3">
                 <label for="nombre" class="form-label">Nombre:</label>
