@@ -1,53 +1,48 @@
 <?php
-
-class core {
-
+class core
+{
     private $server;
     private $user;
     private $password;
     private $database;
-    public $conexion;
+    private $conexion;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->setConect();
         $this->Conect();
     }
 
-    private function setConect() {
-        require "configuracion.php";
+    private function setConect()
+    {
+        require __DIR__ . "/configuracion.php";
 
         $this->server = $server;
         $this->user = $user;
         $this->password = $password;
         $this->database = $database;
-
     }
 
-    public function Conect() {
+    private function Conect()
+    {
         $this->conexion = new mysqli($this->server, $this->user, $this->password, $this->database);
-        if (mysqli_connect_errno()) {
-            echo "No se ha podido establecer conexión con el servidor de bases de datos.<br>", mysqli_connect_error();
+        if ($this->conexion->connect_errno) {
+            echo "No se ha podido establecer conexión con el servidor de bases de datos.<br>", $this->conexion->connect_error;
             exit();
         } else {
             $this->conexion->set_charset("utf8");
         }
     }
 
-    public function getConect() {
-        return $this->conexion;
+    public function execute($sql)
+    {
+        $result = $this->conexion->query($sql);
+        return $result;
     }
 
-    public function closeConect() {
-        mysqli_close($this->conexion);
+    public function closeConect()
+    {
+        $this->conexion->close();
     }
-
-    public function execute($sql) {
-        $conexion = $this->Conect();
-        if ($this->conexion) {
-            $result = mysqli_query($this->conexion, $sql);
-            return $result;
-        } else {
-            echo mysqli_errno();
-        }
-    } 
-    }
+}
+?>
